@@ -42,7 +42,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
-    kapt("io.github.openfeign.querydsl:querydsl-apt:7.1")
+    kapt("io.github.openfeign.querydsl:querydsl-apt:7.1:jpa")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
