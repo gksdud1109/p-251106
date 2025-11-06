@@ -47,4 +47,18 @@ class MemberRepositoryImpl(
             )
             .fetchOne()
     }
+
+    override fun findQByUsernameOrNickname(
+        username: String,
+        nickname: String
+    ): List<Member> {
+        val member = QMember.member
+
+        return jpaQuery
+            .selectFrom(member)
+            .where(member.username.eq(username)
+                .or(member.nickname.eq(nickname))
+            )
+            .fetch()
+    }
 }
