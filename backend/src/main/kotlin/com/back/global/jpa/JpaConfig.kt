@@ -6,12 +6,12 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class JpaConfig (
+class JpaConfig(
     private val entityManager: EntityManager
-){
-
+) {
     @Bean
-    fun jpaQueryFactory(): JpaQueryFactory {
+    fun jpaQueryFactory(): JPAQueryFactory {
         return JPAQueryFactory(entityManager)
     }
+
 }
