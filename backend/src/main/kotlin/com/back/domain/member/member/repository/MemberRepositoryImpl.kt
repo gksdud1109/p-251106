@@ -11,8 +11,26 @@ class MemberRepositoryImpl(
         val member = QMember.member
 
         return jpaQuery
-            .select(member)
-            .where(member.id.eq(id))
+            .selectFrom(member)
+            .where(member.id.eq(id)) // where member.id = id
+            .fetchOne() // limit 1
+    }
+
+    override fun findQByUsername(username: String): Member? {
+        val member = QMember.member
+
+        return jpaQuery
+            .selectFrom(member)
+            .where(member.username.eq(username))
             .fetchOne()
+    }
+
+    override fun findQByIdIn(ids: List<Long>): List<Member> {
+        val member = QMember.member
+
+        return jpaQuery
+            .selectFrom(member)
+            .where(member.id.`in`(ids)) // kotlin in 키워드랑도 겹쳐서 `in` 으로 사용
+            .fetch()
     }
 }
