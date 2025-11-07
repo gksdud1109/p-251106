@@ -3,6 +3,7 @@ package com.back.domain.member.member.service
 import com.back.domain.member.member.entity.Member
 import com.back.domain.member.member.repository.MemberRepository
 import com.back.global.exception.ServiceException
+import com.back.standard.enum.MemberSearchKeywordType
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
@@ -70,7 +71,8 @@ class MemberService(
         }
     }
 
-    fun findByKwPaged(page: Int, pageSize: Int, kwType:String, kw: String): Page<Member> {
+    fun findByKwPaged(page: Int, pageSize: Int, kwType: MemberSearchKeywordType, kw: String): Page<Member> {
+
         val pageable = PageRequest.of(page-1, pageSize)
         val page = memberRepository.findByKwPaged(kwType, kw, pageable)
 

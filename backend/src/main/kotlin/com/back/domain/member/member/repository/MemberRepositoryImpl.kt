@@ -2,6 +2,7 @@ package com.back.domain.member.member.repository
 
 import com.back.domain.member.member.entity.Member
 import com.back.domain.member.member.entity.QMember
+import com.back.standard.enum.MemberSearchKeywordType
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
@@ -173,15 +174,15 @@ class MemberRepositoryImpl(
         }
     }
 
-    override fun findByKwPaged(kwType:String, kw: String, pageable: Pageable): Page<Member> {
+    override fun findByKwPaged(kwType: MemberSearchKeywordType, kw: String, pageable: Pageable): Page<Member> {
 
         val member = QMember.member
 
         val builder = BooleanBuilder()?.apply {
             when(kwType) {
-                "USERNAME" -> this.and(member.username.contains(kw))
-                "NICKNAME" -> this.and(member.nickname.contains(kw))
-                "ALL" -> {
+                MemberSearchKeywordType.USERNAME -> this.and(member.username.contains(kw))
+                MemberSearchKeywordType.NICKNAME -> this.and(member.nickname.contains(kw))
+                MemberSearchKeywordType.ALL -> {
                     this.and(
                         member.username.contains(kw).or(
                             member.nickname.contains(kw)
