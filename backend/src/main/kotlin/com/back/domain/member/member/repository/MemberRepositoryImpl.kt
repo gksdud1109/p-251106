@@ -4,8 +4,8 @@ import com.back.domain.member.member.entity.Member
 import com.back.domain.member.member.entity.QMember
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
+import org.springframework.data.support.PageableExecutionUtils
 
 class MemberRepositoryImpl(
     private val jpaQuery: JPAQueryFactory
@@ -112,12 +112,10 @@ class MemberRepositoryImpl(
             .fetchFirst() != null
     }
 
-    override fun findQByNicknameContaining(
-        nickname: String,
-        pageable: Pageable
-    ): Page<Member> {
+    override fun findQByNicknameContaining(nickname: String, pageable: Pageable): Page<Member> {
         val member = QMember.member
 
+        // content 쿼리
         val content = jpaQuery
             .selectFrom(member)
             .where(member.nickname.contains(nickname))
@@ -125,11 +123,22 @@ class MemberRepositoryImpl(
             .limit(pageable.pageSize.toLong())
             .fetch()
 
-        val total = jpaQuery
-            .select(member.count())
-            .where(member.nickname.contains(nickname))
-            .fetchOne() ?: 0L
+        return PageableExecutionUtils.getPage(content, pageable) {
+            jpaQuery
+                .select(member.count())
+                .from(member)
+                .where(member.nickname.contains(nickname))
+                .fetchOne() ?: 0L
+        }
+    }
 
-        return PageImpl(content, pageable, total)
+    override fun findQByNicknameContainingOrderByIdDesc(nickname: String): List<Member> {
+        val member = QMember.member
+
+        return jpaQuery
+            .selectFrom(member)
+            .where(member.nickname.contains(nickname))
+            .orderBy(member.id.desc())
+            .fetch()
     }
 }
