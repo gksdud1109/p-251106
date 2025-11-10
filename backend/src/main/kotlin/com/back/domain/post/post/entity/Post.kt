@@ -11,11 +11,12 @@ import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
+import org.hibernate.annotations.BatchSize
 
 @Entity
 class Post(
     @field:ManyToOne(fetch = FetchType.LAZY)
-
+    @field:BatchSize(size = 20)
     var author: Member,
 
     var title: String,

@@ -7,6 +7,7 @@ import com.back.standard.enum.MemberSearchKeywordType
 import com.back.standard.enum.MemberSearchSortType
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
